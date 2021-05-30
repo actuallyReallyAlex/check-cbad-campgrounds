@@ -5,7 +5,12 @@ import {
   getNumberOfAvailableFacilities,
   sendMessage,
 } from "./helpers";
-import { AppError, AvailableInfo, PlaceResponse, TextbeltResponse } from "./types";
+import {
+  AppError,
+  AvailableInfo,
+  PlaceResponse,
+  TextbeltResponse,
+} from "./types";
 
 const main = async (): Promise<void> => {
   try {
@@ -37,7 +42,7 @@ const main = async (): Promise<void> => {
 
       if (numberOfAvailableFacilities > 0) {
         availableCampsites.push({
-          date: format(day, 'E - MM-dd-yyyy'),
+          date: format(day, "E - MM-dd-yyyy"),
           numberAvailable: numberOfAvailableFacilities,
         });
       }
@@ -84,4 +89,8 @@ const main = async (): Promise<void> => {
   }
 };
 
-main();
+if (process.env.NODE_ENV !== 'TEST') {
+  main();
+}
+
+export default main;
