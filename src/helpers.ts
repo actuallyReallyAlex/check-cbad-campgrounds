@@ -2,6 +2,7 @@ import nFetch from "node-fetch";
 import { bodyDefaults, endpoint, headers } from "./constants";
 import { Facility, PlaceResponse, TextbeltResponse } from "./types";
 
+// TODO - Rename function
 export const getData = async (
   startDate: string
 ): Promise<PlaceResponse | { error: string }> => {
@@ -17,11 +18,17 @@ export const getData = async (
 
     const data: PlaceResponse = await response.json();
 
-    delete data.SelectedPlace.Facilities[2100];
+    if (
+      data.SelectedPlace &&
+      data.SelectedPlace.Facilities &&
+      data.SelectedPlace.Facilities[2100]
+    ) {
+      delete data.SelectedPlace.Facilities[2100];
+    }
 
     return data;
   } catch (error) {
-    return { error: error };
+    return { error: error.message };
   }
 };
 
@@ -32,6 +39,7 @@ export const getNumberOfAvailableFacilities = (data: PlaceResponse): number => {
     .length;
 };
 
+// TODO - Rename function
 export const sendMessage = async (
   message: string
 ): Promise<TextbeltResponse | { error: string }> => {
@@ -51,6 +59,12 @@ export const sendMessage = async (
     const textbeltData: TextbeltResponse = await textbeltResponse.json();
     return textbeltData;
   } catch (error) {
-    return { error: JSON.stringify(error, null, 2) };
+    return { error: error.message };
   }
 };
+
+export default {
+  getData,
+  getNumberOfAvailableFacilities,
+  sendMessage: sendMessage,
+}

@@ -28,11 +28,15 @@ export interface Facility {
 }
 
 interface FacilityDictionary {
-  708: Facility;
-  712: Facility;
-  714: Facility;
-  715: Facility;
+  708?: Facility;
+  712?: Facility;
+  714?: Facility;
+  715?: Facility;
   2100?: Facility;
+}
+
+export interface MockNodeFetch {
+  json: () => Promise<PlaceResponse | TextbeltResponse | AppError>;
 }
 
 interface Place {
@@ -40,12 +44,12 @@ interface Place {
   Available: boolean;
   AvailableFiltered: boolean;
   AvailableUnitCount: number;
-  BannerUrl: null;
+  BannerUrl: string | null;
   Description: string;
   Facilities: FacilityDictionary;
   HasAlerts: boolean;
   ImageUrl: string;
-  IsFavorite: boolean;
+  IsFavourite: boolean;
   Latitude: number;
   Longitude: number;
   MilesFromSelected: number;
@@ -83,7 +87,7 @@ export interface PlaceResponse {
 }
 
 interface Restrictions {
-  FutuerBookingEnds: string;
+  FutureBookingEnds: string;
   FutureBookingStarts: string;
   IsRestrictionValid: boolean;
   MaximumStay: number;
