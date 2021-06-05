@@ -2,6 +2,11 @@ export interface AppError {
   error: string;
 }
 
+export interface AppResponse {
+  message?: string;
+  success: boolean;
+}
+
 export interface AvailableInfo {
   date: string;
   numberAvailable: number;

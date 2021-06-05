@@ -7,12 +7,13 @@ import {
 } from "./helpers";
 import {
   AppError,
+  AppResponse,
   AvailableInfo,
   PlaceResponse,
   TextbeltResponse,
 } from "./types";
 
-const main = async (): Promise<void> => {
+const cbadCampgroundsNotifier = async (notifyText: boolean): Promise<AppResponse> => {
   try {
     // * For each day between today, and September 1, 2021
     // * Check and see if any campsites are available at Carlsbad Campgrounds
@@ -65,32 +66,37 @@ const main = async (): Promise<void> => {
       message = `There are no available campsites between today, and September 1, 2021. 🙍‍♂️`;
     }
 
-    const textbeltData = await sendMessage(message);
+    if (notifyText) {
+      const textbeltData = await sendMessage(message);
 
-    if ((textbeltData as AppError).error) {
-      throw new Error((textbeltData as AppError).error);
-    }
+      if ((textbeltData as AppError).error) {
+        throw new Error((textbeltData as AppError).error);
+      }
 
-    if (!(textbeltData as TextbeltResponse).success) {
-      throw new Error(JSON.stringify(textbeltData, null, 2));
-    }
+      if (!(textbeltData as TextbeltResponse).success) {
+        throw new Error(JSON.stringify(textbeltData, null, 2));
+      }
 
-    if ((textbeltData as TextbeltResponse).quotaRemaining <= 5) {
-      console.warn(
-        `There are ${
-          (textbeltData as TextbeltResponse).quotaRemaining
-        } texts remaining in your account.`
-      );
+      if ((textbeltData as TextbeltResponse).quotaRemaining <= 5) {
+        console.warn(
+          `There are ${
+            (textbeltData as TextbeltResponse).quotaRemaining
+          } texts remaining in your account.`
+        );
+      }
     }
 
     console.log("SCRIPT SUCCESSFUL");
+
+    return { message, success: true };
   } catch (error) {
     console.error(error);
+    return { success: false };
   }
 };
 
-if (process.env.NODE_ENV !== 'test') {
-  main();
+if (process.env.NODE_ENV !== "test") {
+  cbadCampgroundsNotifier(false).then((res: any) => console.log(res)).catch((res: any) => console.error(res));
 }
 
-export default main;
+export default cbadCampgroundsNotifier;
