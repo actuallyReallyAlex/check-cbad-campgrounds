@@ -1,12 +1,13 @@
 {
   "name": "check-cbad-campgrounds",
-  "version": "0.1.0",
+  "version": "0.3.1",
   "description": "A small script to check if the Carlsbad Campgrounds are available for camping.",
   "main": "index.js",
   "scripts": {
     "build": "rimraf build && tsc",
+    "lint": "eslint .",
     "start": "env-cmd node build/index.js",
-    "test": "env-cmd jest --coverage",
+    "test": "jest --coverage",
     "test:dev": "env-cmd jest --watch"
   },
   "repository": {

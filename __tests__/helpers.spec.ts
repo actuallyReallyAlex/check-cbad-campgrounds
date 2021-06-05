@@ -3,7 +3,7 @@ import {
   getNumberOfAvailableFacilities,
   sendMessage,
 } from "../src/helpers";
-import { AppError, PlaceResponse, TextbeltResponse } from "../src/types";
+import { PlaceResponse, TextbeltResponse } from "../src/types";
 import { mockPlaceResponse } from "../__fixtures__";
 
 describe("helpers", () => {
