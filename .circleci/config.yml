@@ -14,14 +14,12 @@ jobs:
   install-dependencies:
     docker:
       - image: cimg/node:15.1
-    name: Install Dependencies
     steps:
       - checkout
       - node/install-packages
   lint-application:
     docker:
       - image: cimg/node:15.1
-    name: Lint Application
     steps:
       - run:
           name: 'Lint application'
@@ -29,7 +27,6 @@ jobs:
   setup-env:
     docker:
       - image: cimg/node:15.1
-    name: Setup Env
     steps: 
       - run:
           name: Setup environment variables
@@ -37,7 +34,6 @@ jobs:
   unit-test:
     docker:
       - image: cimg/node:15.1
-    name: Run Unit Tests
     steps:
       - run:
           name: 'Unit test'
