@@ -53,7 +53,7 @@ describe("application", () => {
         await application();
         expect(helpers.sendMessage).toHaveBeenCalledTimes(1);
         expect(helpers.sendMessage).toBeCalledWith(
-          "There are 4 campsites available. Days available: Sat - 08-28-2021, Sun - 08-29-2021, Mon - 08-30-2021, Tue - 08-31-2021. 🥳"
+          "There are 4 campsites available. Days available: Sat - 08-28-2021, Sun - 08-29-2021, Mon - 08-30-2021, Tue - 08-31-2021. 🥳 - https://tinyurl.com/bdznyv93"
         );
         expect(console.log).toHaveBeenCalledWith("SCRIPT SUCCESSFUL");
       });

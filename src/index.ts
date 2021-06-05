@@ -60,7 +60,7 @@ const main = async (): Promise<void> => {
         .map((availableInfo) => availableInfo.date)
         .join(", ");
 
-      message = `There are ${numberOfAvailableCampsites} campsites available. Days available: ${daysArray}. 🥳`;
+      message = `There are ${numberOfAvailableCampsites} campsites available. Days available: ${daysArray}. 🥳 - https://tinyurl.com/bdznyv93`;
     } else {
       message = `There are no available campsites between today, and September 1, 2021. 🙍‍♂️`;
     }
@@ -89,7 +89,7 @@ const main = async (): Promise<void> => {
   }
 };
 
-if (process.env.NODE_ENV !== 'TEST') {
+if (process.env.NODE_ENV !== 'test') {
   main();
 }
 
