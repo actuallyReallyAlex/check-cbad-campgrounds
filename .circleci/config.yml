@@ -43,6 +43,12 @@ workflows:
   commit: 
     jobs:
       - install-dependencies
-      - setup-env
-      - lint-application
-      - unit-test
+      - setup-env:
+          requires:
+            - install-dependencies
+      - lint-application:
+          requires:
+            - setup-env
+      - unit-test:
+          requires:
+            - lint-application
