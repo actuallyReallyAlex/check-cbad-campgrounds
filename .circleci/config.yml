@@ -23,23 +23,38 @@ jobs:
           root: .
           paths:
             - .
+
   lint-application:
     docker:
       - image: cimg/node:15.1
     steps:
+      - attach_workspace:
+          at: .
       - run: 
           name: 'ls'
           command: 'ls -l'
       - run:
           name: 'Lint application'
           command: 'npm run lint'
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
   setup-env:
     docker:
       - image: cimg/node:15.1
     steps: 
+      - attach_workspace:
+          at: .
       - run:
           name: Setup environment variables
           command: echo 'export NODE_ENV="TEST"' >> $BASH_ENV
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
   unit-test:
     docker:
       - image: cimg/node:15.1
