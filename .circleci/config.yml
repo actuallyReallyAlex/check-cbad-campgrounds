@@ -15,9 +15,6 @@ jobs:
       - image: cimg/node:15.1
     steps:
       - checkout
-      - run: 
-          name: 'ls'
-          command: 'ls -l'
       - node/install-packages
       - persist_to_workspace:
           root: .
@@ -30,9 +27,6 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run: 
-          name: 'ls'
-          command: 'ls -l'
       - run:
           name: 'Lint application'
           command: 'npm run lint'
@@ -59,6 +53,8 @@ jobs:
     docker:
       - image: cimg/node:15.1
     steps:
+      - attach_workspace:
+          at: .
       - run:
           name: 'Unit test'
           command: 'npm test'
