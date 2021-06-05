@@ -16,8 +16,8 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: 'pwd'
-          command: 'pwd'
+          name: 'ls'
+          command: 'ls -l'
       - node/install-packages
       - persist_to_workspace:
           root: .
@@ -28,8 +28,8 @@ jobs:
       - image: cimg/node:15.1
     steps:
       - run: 
-          name: 'pwd'
-          command: 'pwd'
+          name: 'ls'
+          command: 'ls -l'
       - run:
           name: 'Lint application'
           command: 'npm run lint'
