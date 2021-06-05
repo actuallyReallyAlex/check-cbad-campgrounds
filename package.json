@@ -1,6 +1,6 @@
 {
   "name": "check-cbad-campgrounds",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "A small script to check if the Carlsbad Campgrounds are available for camping.",
   "main": "index.js",
   "scripts": {
