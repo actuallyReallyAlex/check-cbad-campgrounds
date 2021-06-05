@@ -17,6 +17,10 @@ jobs:
     steps:
       - checkout
       - node/install-packages
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
   lint-application:
     docker:
       - image: cimg/node:15.1
