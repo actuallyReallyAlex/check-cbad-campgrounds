@@ -24,6 +24,8 @@ jobs:
           paths:
             - .
   lint-application:
+    docker:
+      - image: cimg/node:15.1
     steps:
       - run: 
           name: 'ls'
@@ -32,11 +34,15 @@ jobs:
           name: 'Lint application'
           command: 'npm run lint'
   setup-env:
+    docker:
+      - image: cimg/node:15.1
     steps: 
       - run:
           name: Setup environment variables
           command: echo 'export NODE_ENV="TEST"' >> $BASH_ENV
   unit-test:
+    docker:
+      - image: cimg/node:15.1
     steps:
       - run:
           name: 'Unit test'
