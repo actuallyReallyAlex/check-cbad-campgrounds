@@ -10,7 +10,6 @@ orbs:
 
 
 jobs:
-  # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   install-dependencies:
     docker:
       - image: cimg/node:15.1
@@ -25,6 +24,9 @@ jobs:
     docker:
       - image: cimg/node:15.1
     steps:
+      - run: 
+          name: 'pwd'
+          command: 'pwd'
       - run:
           name: 'Lint application'
           command: 'npm run lint'
