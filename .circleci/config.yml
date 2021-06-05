@@ -27,6 +27,8 @@ jobs:
           name: 'Lint application'
           command: 'npm run lint'
   setup-env:
+    docker:
+      - image: cimg/node:15.1
     name: Setup Env
     steps: 
       - run:
