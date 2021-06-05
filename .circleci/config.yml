@@ -15,6 +15,9 @@ jobs:
       - image: cimg/node:15.1
     steps:
       - checkout
+      - run: 
+          name: 'pwd'
+          command: 'pwd'
       - node/install-packages
       - persist_to_workspace:
           root: .
