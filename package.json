@@ -22,13 +22,17 @@
   "homepage": "https://github.com/alexlee-dev/check-cbad-campgrounds#readme",
   "dependencies": {
     "date-fns": "^2.22.1",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.4",
     "@babel/preset-typescript": "^7.13.0",
+    "@types/express": "^4.17.12",
     "@types/jest": "^26.0.23",
+    "@types/morgan": "^1.9.2",
     "@types/node-fetch": "^2.5.10",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",

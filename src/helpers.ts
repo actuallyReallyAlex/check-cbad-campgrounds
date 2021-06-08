@@ -5,7 +5,7 @@ import { Facility, PlaceResponse, TextbeltResponse } from "./types";
 // TODO - Rename function
 export const getData = async (
   startDate: string
-): Promise<PlaceResponse | { error: string }> => {
+): Promise<PlaceResponse> => {
   try {
     const response = await nFetch(endpoint, {
       body: JSON.stringify({
@@ -23,12 +23,12 @@ export const getData = async (
       data.SelectedPlace.Facilities &&
       data.SelectedPlace.Facilities[2100]
     ) {
-      delete data.SelectedPlace.Facilities[2100];
+      delete data.SelectedPlace.Facilities[2100]; // Skip $500 premium campsites
     }
 
     return data;
   } catch (error) {
-    return { error: error.message };
+    throw new Error(error);
   }
 };
 
