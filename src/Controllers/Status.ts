@@ -1,17 +1,6 @@
 import express, { Router, Request, Response } from "express";
+import { createFacilitiesMessage } from '../helpers';
 import getDayInfo from "../Services/getDayInfo";
-import { FacilityInfo } from "../types";
-
-const createFacilitiesMessage = (facilities: FacilityInfo[]): string => {
-  let message = ``;
-
-  facilities.forEach(
-    (facility) =>
-      (message += `<h3>${facility.name}</h3><h4>Premium: ${facility.availableSites.premium}</h4><h4>Regular: ${facility.availableSites.regular}</h4>`)
-  );
-
-  return message;
-};
 
 class StatusController {
   public router: Router = express.Router();
