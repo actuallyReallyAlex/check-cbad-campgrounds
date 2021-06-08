@@ -6,7 +6,7 @@ Object.defineProperty(helpers, "sendMessage", {
   value: jest.fn(() => mockTextbeltResponse),
 });
 
-describe("application", () => {
+describe.skip("application", () => {
   describe("on success", () => {
     describe("no available campsites", () => {
       const originalLog = console.log;
