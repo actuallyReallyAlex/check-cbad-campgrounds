@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf build && tsc",
+    "dev": "env-cmd node build/index.js",
     "lint": "eslint .",
-    "start": "env-cmd node build/index.js",
+    "start": "node build/index.js",
     "test": "jest --coverage",
     "test:dev": "env-cmd jest --watch"
   },
