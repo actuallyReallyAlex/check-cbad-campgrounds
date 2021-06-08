@@ -1,10 +1,34 @@
+import { Router } from "express";
+
 export interface AppError {
   error: string;
+}
+
+export interface AppResponse {
+  message?: string;
+  success: boolean;
 }
 
 export interface AvailableInfo {
   date: string;
   numberAvailable: number;
+}
+
+export interface CampsiteInfo {
+  availableSites: number;
+  date: string;
+  facilityName: string;
+  siteNumber: number;
+}
+
+export type Controller = {
+  router: Router;
+};
+
+export interface DayInfo {
+  availableSites: number;
+  date: string;
+  facilities: FacilityInfo[];
 }
 
 export interface Facility {
@@ -33,6 +57,15 @@ interface FacilityDictionary {
   714?: Facility;
   715?: Facility;
   2100?: Facility;
+}
+
+export interface FacilityInfo {
+  availableSites: {
+    premium: number,
+    regular: number
+  };
+  id: number;
+  name: string;
 }
 
 export interface MockNodeFetch {

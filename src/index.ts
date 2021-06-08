@@ -1,96 +1,23 @@
-import { addDays, differenceInDays, format } from "date-fns";
-import { numberOfDaysToSkip } from "./constants";
-import {
-  getData,
-  getNumberOfAvailableFacilities,
-  sendMessage,
-} from "./helpers";
-import {
-  AppError,
-  AvailableInfo,
-  PlaceResponse,
-  TextbeltResponse,
-} from "./types";
+import App from "./app";
+import NotifierController from "./Controllers/Notifier";
+import StatusController from "./Controllers/Status";
+import { Controller } from "./types";
 
-const main = async (): Promise<void> => {
+const server = async (): Promise<void> => {
   try {
-    // * For each day between today, and September 1, 2021
-    // * Check and see if any campsites are available at Carlsbad Campgrounds
-    // * If any site is available on that day
-    // * Push info to array of available campsites
-    // * Log to console the number of campsites available
-    // * If there are any available campsites
-    // *   - send text to phone with link to ReserveCA
-    // * If there are no available campsites
-    // *   - sent text to phone with a message about trying again next time
+    if (!process.env.PORT) throw new Error("No PORT");
 
-    const days = differenceInDays(new Date("September 1, 2021"), new Date());
+    const controllers: Controller[] = [
+      new NotifierController(),
+      new StatusController(),
+    ];
 
-    const availableCampsites: AvailableInfo[] = [];
+    const app = new App(controllers, process.env.PORT);
 
-    for (let i = numberOfDaysToSkip; i < days; i++) {
-      const day = addDays(new Date(), i);
-      const formattedDay = format(day, "MM-dd-yyyy");
-      const campsiteData = await getData(formattedDay);
-      if ((campsiteData as AppError).error) {
-        throw new Error((campsiteData as AppError).error);
-      }
-
-      const numberOfAvailableFacilities = getNumberOfAvailableFacilities(
-        campsiteData as PlaceResponse
-      );
-
-      if (numberOfAvailableFacilities > 0) {
-        availableCampsites.push({
-          date: format(day, "E - MM-dd-yyyy"),
-          numberAvailable: numberOfAvailableFacilities,
-        });
-      }
-    }
-
-    let message;
-
-    if (availableCampsites.length > 0) {
-      const numberOfAvailableCampsites = availableCampsites.reduce(
-        (previousValue, currentValue) =>
-          previousValue + currentValue.numberAvailable,
-        0
-      );
-      const daysArray = availableCampsites
-        .map((availableInfo) => availableInfo.date)
-        .join(", ");
-
-      message = `There are ${numberOfAvailableCampsites} campsites available. Days available: ${daysArray}. 🥳`;
-    } else {
-      message = `There are no available campsites between today, and September 1, 2021. 🙍‍♂️`;
-    }
-
-    const textbeltData = await sendMessage(message);
-
-    if ((textbeltData as AppError).error) {
-      throw new Error((textbeltData as AppError).error);
-    }
-
-    if (!(textbeltData as TextbeltResponse).success) {
-      throw new Error(JSON.stringify(textbeltData, null, 2));
-    }
-
-    if ((textbeltData as TextbeltResponse).quotaRemaining <= 5) {
-      console.warn(
-        `There are ${
-          (textbeltData as TextbeltResponse).quotaRemaining
-        } texts remaining in your account.`
-      );
-    }
-
-    console.log("SCRIPT SUCCESSFUL");
+    app.listen();
   } catch (error) {
     console.error(error);
   }
 };
 
-if (process.env.NODE_ENV !== 'TEST') {
-  main();
-}
-
-export default main;
+server();

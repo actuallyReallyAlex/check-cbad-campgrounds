@@ -1,11 +1,22 @@
 import nFetch from "node-fetch";
 import { bodyDefaults, endpoint, headers } from "./constants";
-import { Facility, PlaceResponse, TextbeltResponse } from "./types";
+import { Facility, FacilityInfo, PlaceResponse, TextbeltResponse } from "./types";
+
+export const createFacilitiesMessage = (facilities: FacilityInfo[]): string => {
+  let message = ``;
+
+  facilities.forEach(
+    (facility) =>
+      (message += `<h3>${facility.name}</h3><h4>Premium: ${facility.availableSites.premium}</h4><h4>Regular: ${facility.availableSites.regular}</h4>`)
+  );
+
+  return message;
+};
 
 // TODO - Rename function
 export const getData = async (
   startDate: string
-): Promise<PlaceResponse | { error: string }> => {
+): Promise<PlaceResponse> => {
   try {
     const response = await nFetch(endpoint, {
       body: JSON.stringify({
@@ -23,12 +34,12 @@ export const getData = async (
       data.SelectedPlace.Facilities &&
       data.SelectedPlace.Facilities[2100]
     ) {
-      delete data.SelectedPlace.Facilities[2100];
+      delete data.SelectedPlace.Facilities[2100]; // Skip $500 premium campsites
     }
 
     return data;
   } catch (error) {
-    return { error: error.message };
+    throw new Error(error);
   }
 };
 
@@ -42,7 +53,7 @@ export const getNumberOfAvailableFacilities = (data: PlaceResponse): number => {
 // TODO - Rename function
 export const sendMessage = async (
   message: string
-): Promise<TextbeltResponse | { error: string }> => {
+): Promise<TextbeltResponse> => {
   try {
     const textbeltResponse = await nFetch("https://textbelt.com/text", {
       body: JSON.stringify({
@@ -59,7 +70,7 @@ export const sendMessage = async (
     const textbeltData: TextbeltResponse = await textbeltResponse.json();
     return textbeltData;
   } catch (error) {
-    return { error: error.message };
+    throw new Error(error);
   }
 };
 

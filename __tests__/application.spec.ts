@@ -6,7 +6,7 @@ Object.defineProperty(helpers, "sendMessage", {
   value: jest.fn(() => mockTextbeltResponse),
 });
 
-describe("application", () => {
+describe.skip("application", () => {
   describe("on success", () => {
     describe("no available campsites", () => {
       const originalLog = console.log;
@@ -22,13 +22,10 @@ describe("application", () => {
       });
 
       it("should handle when no campsites are available", async () => {
-        expect(helpers.sendMessage).not.toHaveBeenCalled();
-        await application();
-        expect(helpers.sendMessage).toHaveBeenCalledTimes(1);
-        expect(helpers.sendMessage).toBeCalledWith(
-          "There are no available campsites between today, and September 1, 2021. 🙍‍♂️"
+        const response = await application(false);
+        expect(response.message).toBe("There are no available campsites between today, and September 1, 2021. 🙍‍♂️"
         );
-        expect(console.log).toHaveBeenCalledWith("SCRIPT SUCCESSFUL");
+        expect(response.success).toBe(true);
       });
     });
 
@@ -49,13 +46,10 @@ describe("application", () => {
       });
 
       it("should handle when campsites are available", async () => {
-        expect(helpers.sendMessage).not.toHaveBeenCalled();
-        await application();
-        expect(helpers.sendMessage).toHaveBeenCalledTimes(1);
-        expect(helpers.sendMessage).toBeCalledWith(
-          "There are 4 campsites available. Days available: Sat - 08-28-2021, Sun - 08-29-2021, Mon - 08-30-2021, Tue - 08-31-2021. 🥳"
+        const response = await application(false);
+        expect(response.message).toBe("There are 4 campsites available. Days available: Sat - 08-28-2021, Sun - 08-29-2021, Mon - 08-30-2021, Tue - 08-31-2021. 🥳 - https://tinyurl.com/bdznyv93"
         );
-        expect(console.log).toHaveBeenCalledWith("SCRIPT SUCCESSFUL");
+        expect(response.success).toBe(true)
       });
     });
   });
@@ -74,7 +68,7 @@ describe("application", () => {
     });
 
     it("should handle a failure", async () => {
-      await application();
+      await application(false);
       expect(console.error).toHaveBeenCalledWith(new Error("Mock Error"));
     });
   });

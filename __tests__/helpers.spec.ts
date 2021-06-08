@@ -6,7 +6,7 @@ import {
 import { PlaceResponse, TextbeltResponse } from "../src/types";
 import { mockPlaceResponse } from "../__fixtures__";
 
-describe("helpers", () => {
+describe.skip("helpers", () => {
   describe("getData", () => {
     describe("on success", () => {
       it("should hit ReserveCA API and return json data", async () => {
